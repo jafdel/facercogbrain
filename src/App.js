@@ -55,7 +55,7 @@ const App = () => {
 
   const requestOptions = {
       method: 'POST',
-      mode: 'no-cors',
+      mode: 'cors',
       headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
