@@ -55,7 +55,7 @@ const App = () => {
 
   const requestOptions = {
       method: 'POST',
-      origin: "https://corsfix.com",
+      origin: "https://jafdel.github.io",
       mode: 'no-cors',
       headers: {
           'Accept': 'application/json',
