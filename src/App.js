@@ -57,8 +57,8 @@ const App = () => {
       method: 'POST',
       credentials: 'include',
       headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
+          'Accept': 'text/plain',
+          'Content-Type': 'text/plain',
           'Authorization': 'Key ' + PAT
       },
       body: raw
@@ -68,7 +68,7 @@ const App = () => {
   // https://api.clarifai.com/v2/models/{YOUR_MODEL_ID}/outputs
   // this will default to the latest version_id
 
-  fetch("https://proxy.corsfix.com/https://api.clarifai.com/v2/models/" + MODEL_ID + "/outputs", requestOptions)
+  fetch("https://api.clarifai.com/v2/models/" + MODEL_ID + "/outputs", requestOptions)
       .then(response => response.json())
       .then(result => {
 
