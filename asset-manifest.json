@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/facercogbrain/static/css/main.4855c313.css",
-    "main.js": "/facercogbrain/static/js/main.3636c615.js",
+    "main.js": "/facercogbrain/static/js/main.fe151860.js",
     "static/js/453.b7596614.chunk.js": "/facercogbrain/static/js/453.b7596614.chunk.js",
     "static/media/axios.cjs": "/facercogbrain/static/media/axios.f50781e842ef05922fb7.cjs",
     "index.html": "/facercogbrain/index.html",
     "main.4855c313.css.map": "/facercogbrain/static/css/main.4855c313.css.map",
-    "main.3636c615.js.map": "/facercogbrain/static/js/main.3636c615.js.map",
+    "main.fe151860.js.map": "/facercogbrain/static/js/main.fe151860.js.map",
     "453.b7596614.chunk.js.map": "/facercogbrain/static/js/453.b7596614.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.4855c313.css",
-    "static/js/main.3636c615.js"
+    "static/js/main.fe151860.js"
   ]
 }
