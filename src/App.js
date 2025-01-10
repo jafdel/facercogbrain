@@ -55,7 +55,7 @@ const App = () => {
 
   const requestOptions = {
       method: 'POST',
-      origin: "https://jafdel.github.io",
+      credentials: 'include',
       mode: 'no-cors',
       headers: {
           'Accept': 'application/json',
@@ -69,7 +69,7 @@ const App = () => {
   // https://api.clarifai.com/v2/models/{YOUR_MODEL_ID}/outputs
   // this will default to the latest version_id
 
-  fetch("https://proxy.corsfix.com/?https://api.clarifai.com/v2/models/" + MODEL_ID + "/outputs", requestOptions)
+  fetch("https://api.clarifai.com/v2/models/" + MODEL_ID + "/outputs", requestOptions)
       .then(response => response.json())
       .then(result => {
 
