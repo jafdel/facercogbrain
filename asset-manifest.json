@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/facercogbrain/static/css/main.4855c313.css",
-    "main.js": "/facercogbrain/static/js/main.8a869bcd.js",
+    "main.js": "/facercogbrain/static/js/main.bdd903a0.js",
     "static/js/453.919cfafa.chunk.js": "/facercogbrain/static/js/453.919cfafa.chunk.js",
     "index.html": "/facercogbrain/index.html",
     "main.4855c313.css.map": "/facercogbrain/static/css/main.4855c313.css.map",
-    "main.8a869bcd.js.map": "/facercogbrain/static/js/main.8a869bcd.js.map",
+    "main.bdd903a0.js.map": "/facercogbrain/static/js/main.bdd903a0.js.map",
     "453.919cfafa.chunk.js.map": "/facercogbrain/static/js/453.919cfafa.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.4855c313.css",
-    "static/js/main.8a869bcd.js"
+    "static/js/main.bdd903a0.js"
   ]
 }
