@@ -140,7 +140,7 @@ const App = () => {
   /*const quickstart = async function() {
     const client = new vision.ImageAnnotatorClient({
     });
-    keyFilename: '447603-j1-5fd01ef044b5.json'
+    keyFilename: ''
     const [result] = await client.labelDetection('./resources/wakeupcat.jpg');
     const labels = result.labelAnnotations;
     console.log('Labels:');
@@ -152,7 +152,7 @@ const App = () => {
   const [input, setInput] = useState('');
   const [display, setDisplay] = useState('none');
   //const [imgUrl, setImgUrl] = useState('');
-  const forceUpdate = useReducer(x => x + 1, 0)[1];
+  //const forceUpdate = useReducer(x => x + 1, 0)[1];
   
   const onInputChange = event => {
     setInput(event.target.value);
