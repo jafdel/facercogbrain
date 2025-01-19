@@ -3,11 +3,17 @@ import Navigation from './components/Navigation/Navigation.js';
 import Rank from './components/Rank/Rank.js';
 import Logo from './components/Logo/Logo.js';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm.js';
+import FaceRecog from './components/FaceRecog/FaceRecog.js';
 import './App.css';
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, useReducer } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import Clarifai from 'clarifai';
+import axios from 'axios';
+import cors from 'cors';
+//import 'https://astica.ai/javascript-sdk/2024-01-31/astica.api.js';
+//import vision from 'google-cloud/vision';
+//import { createProxyMiddleware } from 'http-proxy-middleware';
 //import { ClarifaiStub, grpc } from 'clarifai-nodejs-grpc';
 /*import service, { V2Client } from 'clarifai-nodejs-grpc/proto/clarifai/api/service_grpc_pb';
 import resources from 'clarifai-noedejs-grpc/proto/clarifai_api_resources_pb';
@@ -21,7 +27,7 @@ const App = () => {
   //////////////////////////////////////////////////////////////////////////////////////////////////
 
   // Your PAT (Personal Access Token) can be found in the Account's Security section
-  const PAT = '7a4f7363c3504f36a1f7b8dd64edd79d';
+  const PAT = '1239eeb29be94cceb30a2024f4d050a9';
   // Specify the correct user_id/app_id pairings
   // Since you're making inferences outside your app's scope
   const USER_ID = 'clarifai';
@@ -29,10 +35,9 @@ const App = () => {
   // Change these to whatever model and image URL you want to use
   const MODEL_ID = 'face-detection';
   const MODEL_VERSION_ID = '6dc7e46bc9124c5c8824be4822abe105';
-  const IMAGE_URL = 'https://samples.clarifai.com/metro-north.jpg';
   // To use image bytes, assign its variable   
   
-  const api = new Clarifai.App({
+  /*const api = new Clarifai.App({
     apiKey: PAT
   });
   api.models.predict(Clarifai.FACE_DETECT_MODEL, IMAGE_URL)
@@ -43,7 +48,7 @@ const App = () => {
       , function(err) {
         console.log(err);
       }
-  );
+  );*/
   
   // const IMAGE_BYTES_STRING = '/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAoACgDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAYDBQcE/8QAMBAAAQMDAwMDAgQHAAAAAAAAAQIDBAAFEQYSIQcTMTJBURRhCBYikSNScXKhsdH/xAAZAQACAwEAAAAAAAAAAAAAAAAFBgIDBAf/xAAtEQABAwMBBgQHAQAAAAAAAAABAgMRAAQhMQUSE0FRYQaBocEUFiJCcrHR8P/aAAwDAQACEQMRAD8A3+RYY1unSYzCS0ttZUkAgktn0q5yT7jPyDUC4wdGwycH5U2Kt9ZQ7VI1qw5PkvQy3CSVPpf7aQjuKyFH25xzn3pHn3TVNy01Hl2hyy6YdkSpKsS9sl/6RlI3rRu3dxWd6spwnAGPIJTfl925fcLaoSDHXvyo6i9SlCQrU9wKln3OyWiaDN1RAbW3kKbSd7gPtwMkH/tTWy9afuy1iPfnXMAblITwkE4yf08cn3pSbYt1uts24XH6fUbiLAuY1MWyGkLEmUW0rcCRvUpQ5CtwKQCPgi4S1ZbDe4sd9NntDEe79m3uOBLTr0IR9jzodSMqUpTu9JJ8owD7UTT4ZCfv9PbP7860m+s+HBSrejWRuz2kAxoesGYxTW/Zlpkwo1vkuSly3UgKWQUhHJUvIHsAaKTemF8XE6sWmxyZkiaZrMh1jv8ArQNpUVqB8FW0njHqx4zRVVhsph1KlKk5xQ+7uHmikaSJrQerMByet2IwvtuTLa4xv2k7Rk84H9x/esHv92d01boenLXGcuiWrFIhLlpbcaQ2/JdK3VJCkAq2pAR7Zz7YxWudY9fxNIdQbNGkR5TyX4aisNNpUMFZAzkj4NK0jq9ZpbLr0PSlzkhrlZDaQlP3P8Q4/ap3F87bPucJEkx/hHv60b2TYXLrKN5sramYECSQRk9M6c6zmJ+eb5Hi22M7cnWGIQgFLbX0zSo4PDa1YBcTgDyMjJ/qbGPabH08SJt1Uzc9QqRliGg5QySPKvgc+TyfYDmmTUWpNYz7ctxoQdPQshCktupckDJUPUcJT6DwMq8YyaQ9VL0pCS8zapcq4SVOBZmPDO8/cnknlWcDBwn4NYnPjLkQ+qE9OtOVlYpeVHDCEkkkJyT+SuQzy5Y0ru6Ez511/Efa5s1fdkOtyVurIxgdlQAA9gOKKPwolU7remU5hCGYEgo38KUv9I/0TRTDYJCWQBSF4rIN/CRgAR0iTpVD1j1g/qDqJcJqlKcjB9bcda142MpOEJAzgeMnjyTSyze5KEuNRpDoDvC0oe4X9iAeaKKFK+oya6fbOqYbDTeEiAPKpHdS3gBLYc7RQkp3ApQog+cq8nwPJrljzxnPZbUfnugn/NFFRgEVch9xKsH0H8pg6e3x3T3UC1ajaZITGkJLoS4MKbOUrzz/ACKVRRRVzVwtoQmhG1NkWu0HuI+JI8u/Kv/Z';
 
@@ -92,7 +97,7 @@ const App = () => {
   // YOU DO NOT NEED TO CHANGE ANYTHING BELOW THIS LINE TO RUN THIS EXAMPLE
   ///////////////////////////////////////////////////////////////////////////////////
 
-  const raw = JSON.stringify({
+  /*const raw = JSON.stringify({
       "user_app_id": {
           "user_id": USER_ID,
           "app_id": APP_ID
@@ -107,31 +112,13 @@ const App = () => {
               }
           }
       ]
-  });
-
-  const requestOptions = {
-      method: 'POST',
-      origin: 'github.io',
-      credentials: 'include',
-      mode: 'no-cors',
-      headers: {
-          'Accept': 'text/plain',
-          'Content-Type': 'text/plain',
-          'Authorization': 'Key ' + PAT
-      },
-      body: raw
-  };
-
+  });*/
   // NOTE: MODEL_VERSION_ID is optional, you can also call prediction with the MODEL_ID only
   // https://api.clarifai.com/v2/models/{YOUR_MODEL_ID}/outputs
   // this will default to the latest version_id
 
-  /*fetch("https://api.clarifai.com/v2/models/" + MODEL_ID + "/outputs", requestOptions)
-      .then(response => response.json())
-      .then(result => {
-
+  /*fetch(url, requestOptions).then(response => response.json()).then(result => {
           const regions = result.outputs[0].data.regions;
-
           regions.forEach(region => {
               // Accessing and rounding the bounding box values
               const boundingBox = region.region_info.bounding_box;
@@ -146,24 +133,65 @@ const App = () => {
                   const value = concept.value.toFixed(4);
 
                   console.log(`${name}: ${value} BBox: ${topRow}, ${leftCol}, ${bottomRow}, ${rightCol}`);
-                  
               });
           });
+      });*//*.catch(error => console.log('error', error));*/
 
-      })
-      .catch(error => console.log('error', error));*/
+  /*const quickstart = async function() {
+    const client = new vision.ImageAnnotatorClient({
+    });
+    keyFilename: '447603-j1-5fd01ef044b5.json'
+    const [result] = await client.labelDetection('./resources/wakeupcat.jpg');
+    const labels = result.labelAnnotations;
+    console.log('Labels:');
+    labels.forEach(label => console.log(label.description))
+    .catch(err => console.error("ERROR:", err));
+  }
+  quickstart();*/
+  const [init, setInit] = useState(false);
+  const [input, setInput] = useState('');
+  const [display, setDisplay] = useState('none');
+  //const [imgUrl, setImgUrl] = useState('');
+  const forceUpdate = useReducer(x => x + 1, 0)[1];
   
   const onInputChange = event => {
-      console.log(event.target.value);
-    };
+    setInput(event.target.value);
+    console.log(event.target.value);
+  };
 
-  const onButtonSubmit = () => {
-      console.log('click');
+  const onButtonSubmit = e => {
+    e.preventDefault();
+    //e.target.parentElement.parentElement.parentElement.nextSibling.firstChild.src = input;
+    //const IMAGE_URL = 'https://astica.ai/example/asticaVision_sample.jpg';
+    const url = 'https://vision.astica.ai/describe';
+  
+    const body = {
+      tkn: '36163AEA-3AA5-4FFE-80B9-0FFDF88E0AAC6904552CD17986-93D2-4671-81D4-E8C94E826768',
+      modelVersion: '2.5_full',
+      input: input,
+      visionParams: 'color',
+      gpt_prompt: '',
+    }
+    const requestOptions = {
+        method: 'POST',
+        url: url,
+        //origin: 'jafdel.github.io',
+        //credentials: 'include',
+        //withCredentials: true,
+        mode: 'cors',
+        headers: {
+            //'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            //'Authorization': 'Bearer ' + PAT
+        },
+        data: body
     };
+    axios(requestOptions).then(response => console.log(response.data)).catch(err => console.log("ERROR:", err));
+    setDisplay('block');
+  };
 
-  const [init, setInit] = useState(false);
     // this should be run only once per application lifetime
-  useEffect(() => {
+    useEffect(() => {
     initParticlesEngine(async engine => {
       // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
       // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
@@ -172,14 +200,9 @@ const App = () => {
       //await loadFull(engine);
       await loadSlim(engine);
       //await loadBasic(engine);
-    }).then(() => {
-      setInit(true);
-    });
+    }).then(() => setInit(true));
   }, []);
-
-  const particlesLoaded = container => {
-    console.log(container);
-  };
+  const particlesLoaded = container => console.log(container);
 
   const options = useMemo(
     () => ({
@@ -267,7 +290,7 @@ const App = () => {
           <Logo />
           <Rank />
           <ImageLinkForm onInputChange={onInputChange} onButtonSubmit={onButtonSubmit} />
-          {/*<FaceRecog />*/}
+          <FaceRecog input={input} display={display} />
       </div>
     );
   }
