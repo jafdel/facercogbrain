@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
-import Navigation from '/components/Navigation/Navigation.js';
-import Rank from '/components/Rank/Rank.js';
-import Logo from '/components/Logo/Logo.js';
-import ImageLinkForm from '/components/ImageLinkForm/ImageLinkForm.js';
-import SignIn from '/components/SignIn/SignIn.js';
-import Register from '/components/Register/Register.js';
-import FaceRecog from '/components/FaceRecog/FaceRecog.js';
+import Navigation from 'components/Navigation/Navigation.js';
+import Rank from 'components/Rank/Rank.js';
+import Logo from 'components/Logo/Logo.js';
+import ImageLinkForm from 'components/ImageLinkForm/ImageLinkForm.js';
+import SignIn from 'components/SignIn/SignIn.js';
+import Register from 'components/Register/Register.js';
+import FaceRecog from 'components/FaceRecog/FaceRecog.js';
 import 'App.css';
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
