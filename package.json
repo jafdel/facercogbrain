@@ -37,7 +37,7 @@
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
     "predeploy": "npm run build",
-    "deploy": "npm run build"
+    "deploy": "npm run build --legacy-peer-deps"
   },
   "eslintConfig": {
     "extends": [
