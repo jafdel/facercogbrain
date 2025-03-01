@@ -2,7 +2,10 @@ module.exports = function (webpackEnv) {
     // ...
     return {
      // ...
-      resolve: {
+     devServer: {
+      hustoryApiFallback: true
+     },
+     resolve: {
         // ...
         fallback: {
           // 👇️👇️👇️ add this 👇️👇️👇️
