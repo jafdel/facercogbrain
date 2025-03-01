@@ -1,5 +1,10 @@
+#root {
+  overflow-y: auto;
+}
+
 .App {
   text-align: center;
+  overflow: inherit;
 }
 
 #tsparticles, .App, #root, body, html {
