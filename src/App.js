@@ -6,7 +6,7 @@ import ImageLinkForm from '/components/ImageLinkForm/ImageLinkForm.js';
 import SignIn from '/components/SignIn/SignIn.js';
 import Register from '/components/Register/Register.js';
 import FaceRecog from '/components/FaceRecog/FaceRecog.js';
-import '/App.css';
+import 'App.css';
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 
