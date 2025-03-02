@@ -2,9 +2,6 @@ module.exports = function (webpackEnv) {
     // ...
     return {
      // ...
-     devServer: {
-      hustoryApiFallback: true
-     },
      resolve: {
         // ...
         fallback: {
