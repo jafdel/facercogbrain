@@ -1,7 +1,7 @@
 {
   "name": "facerecogbrain",
   "version": "0.1.0",
-  "homepage": "./",
+  "homepage": "",
   "private": true,
   "dependencies": {
     "@tsparticles/engine": "^3.7.1",
